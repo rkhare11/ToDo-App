@@ -173,7 +173,7 @@ class App extends React.Component {
 
   onSortClick = (sortType) => {
     const { isAscending } = this.state;
-    this.setState({sortType, isAscending: this.state.sortType !== sortType ? true : !isAscending});
+    this.setState({sortType, isAscending: (this.state.sortType !== sortType) || !isAscending});
   }
 
   saveTask = () => {
