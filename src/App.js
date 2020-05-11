@@ -106,7 +106,7 @@ class App extends React.Component {
 
   getFormSpec = () => {
     const { editMode } = this.state;
-    const readonly = editMode === modalModes.READ_ONLY || editMode === modalModes.DELETE ? true : false;
+    const readonly = (editMode === modalModes.READ_ONLY || editMode === modalModes.DELETE);
     return {
       inputSpecs: [
         getInputSpec("summary", "summary", inputTypes.TEXT, labels.SUMMARY, this.onInputChange, undefined, placeholders.SUMMARY, undefined, "float-left", readonly, this.TEXT_MIN_LENGTH, this.TEXT_MAX_LENGTH),
@@ -147,9 +147,9 @@ class App extends React.Component {
     const { sortType, isAscending, groupBy } = this.state;
     return [
       getHeaderItem(labels.SUMMARY, true, (sortType === "summary" && isAscending ? "sort-asc" : sortType === "summary" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "summary")),
-      getHeaderItem(labels.PRIORITY, groupBy === "priority" ? false : true, (sortType === "priority" && isAscending ? "sort-asc" : sortType === "priority" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "priority")),
-      getHeaderItem(labels.CREATED_ON, groupBy === "createdAt" ? false : true, (sortType === "createdAt" && isAscending ? "sort-asc" : sortType === "createdAt" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "createdAt")),
-      getHeaderItem(labels.DUE_BY, groupBy === "dueDate" ? false : true, (sortType === "dueDate" && isAscending ? "sort-asc" : sortType === "dueDate" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "dueDate")),
+      getHeaderItem(labels.PRIORITY, !(groupBy === "priority"), (sortType === "priority" && isAscending ? "sort-asc" : sortType === "priority" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "priority")),
+      getHeaderItem(labels.CREATED_ON, !(groupBy === "createdAt"), (sortType === "createdAt" && isAscending ? "sort-asc" : sortType === "createdAt" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "createdAt")),
+      getHeaderItem(labels.DUE_BY, !(groupBy === "dueDate"), (sortType === "dueDate" && isAscending ? "sort-asc" : sortType === "dueDate" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "dueDate")),
       getHeaderItem(labels.ACTIONS)
     ];
   }
@@ -158,19 +158,14 @@ class App extends React.Component {
     const { groupBy } = this.state;
     return (
       <GenericTable
-        bodyItems={type === taskStates.COMPLETED ? this.getBodyItems().map((group) => {
+        bodyItems={type ? this.getBodyItems().map((group) => {
           return {
             label: group.label,
-            items: group.items.filter((item) => item.currentState !== taskStates.OPEN)
-          }
-        }) : type === taskStates.OPEN ?
-        this.getBodyItems().map((group) => {
-          return {
-            label: group.label,
-            items: group.items.filter((item) => item.currentState !== taskStates.COMPLETED)
+            items: group.items.filter((item) => item.currentState === type)
           }
         }) : this.getBodyItems()}
-        bordered groupBy={groupBy}
+        bordered
+        groupBy={groupBy}
         headerItems={this.getHeaderItems()}
       />
     );
