@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## NOTE: The main goal of developing this app is not to create a ToDo App but to see how generic architectures can be achieved when designing an app from the scratch
+
 ## Available Scripts
 
 In the project directory, you can run:
