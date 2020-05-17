@@ -182,13 +182,13 @@ class App extends React.Component {
     const { summary, description, dueDate } = formValue;
     const alerts = [];
     if (summary.length < this.TEXT_MIN_LENGTH || summary.length > this.TEXT_MAX_LENGTH) {
-      alerts.push(`${labels.SUMMARY} must contain minimun ${this.TEXT_MIN_LENGTH} and maximum ${this.TEXT_MAX_LENGTH} characters`);
+      alerts.push(`"${labels.SUMMARY}" must contain minimum ${this.TEXT_MIN_LENGTH} and maximum ${this.TEXT_MAX_LENGTH} characters`);
     }
     if (description.length < this.TEXTAREA_MIN_LENGTH || description.length > this.TEXTAREA_MAX_LENGTH) {
-      alerts.push(`${labels.DESCRIPTION} must contain minimun ${this.TEXTAREA_MIN_LENGTH} and maximum ${this.TEXTAREA_MAX_LENGTH} characters`);
+      alerts.push(`"${labels.DESCRIPTION}" must contain minimum ${this.TEXTAREA_MIN_LENGTH} and maximum ${this.TEXTAREA_MAX_LENGTH} characters`);
     }
     if (!dueDate) {
-      alerts.push(`${labels.DUE_DATE} must be filled in`);
+      alerts.push(`"${labels.DUE_DATE}" must be filled in`);
     }
     if (alerts.length > 0) {
       this.setState({alerts}, () => {
