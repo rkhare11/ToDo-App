@@ -200,7 +200,12 @@ class App extends React.Component {
     const createdAt = editMode === modalModes.EDIT ? {} : {createdAt: new Date().toISOString()};
     const id = editMode === modalModes.EDIT ? {} : {id: generateId(6)};
     const currentState = editMode === modalModes.EDIT ? {} : {currentState: taskStates.OPEN};
-    const updatedTasks = [{...formValue, ...createdAt, ...id, ...currentState}, ...tasks];
+    const updatedTasks = editMode === modalModes.EDIT ? tasks.map((task) => {
+      if (task.id === formValue.id) {
+        return formValue;
+      }
+      return task;
+    }) : [{...formValue, ...createdAt, ...id, ...currentState}, ...tasks];
     this.setState({tasks: updatedTasks, isOpen: !isOpen}, () => {
       this.setLocalStorage();
     });
