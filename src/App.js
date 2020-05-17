@@ -45,7 +45,8 @@ class App extends React.Component {
     getSelectOption(groupTypes.NONE, labels.NONE),
     getSelectOption(groupTypes.CREATED_ON, labels.CREATED_ON),
     getSelectOption(groupTypes.PENDING_ON, labels.PENDING_ON),
-    getSelectOption(groupTypes.PRIORITY, labels.PRIORITY)
+    getSelectOption(groupTypes.PRIORITY, labels.PRIORITY),
+    getSelectOption(groupTypes.TASK_STATE, labels.TASK_STATE)
   ];
 
   constructor(props) {
@@ -200,7 +201,12 @@ class App extends React.Component {
     const createdAt = editMode === modalModes.EDIT ? {} : {createdAt: new Date().toISOString()};
     const id = editMode === modalModes.EDIT ? {} : {id: generateId(6)};
     const currentState = editMode === modalModes.EDIT ? {} : {currentState: taskStates.OPEN};
-    const updatedTasks = [{...formValue, ...createdAt, ...id, ...currentState}, ...tasks];
+    const updatedTasks = editMode === modalModes.EDIT ? tasks.map((task) => {
+      if (task.id === formValue.id) {
+        return formValue;
+      }
+      return task;
+    }) : [{...formValue, ...createdAt, ...id, ...currentState}, ...tasks];
     this.setState({tasks: updatedTasks, isOpen: !isOpen}, () => {
       this.setLocalStorage();
     });
@@ -275,7 +281,7 @@ class App extends React.Component {
     const tasks = search ? this.state.tasks.filter((task) => task.summary.toLowerCase().indexOf(search.toLowerCase()) > -1) : this.state.tasks;
     const groupedTasks = new Map();
     tasks.forEach((task) => {
-      const key = groupBy === groupTypes.PRIORITY ? task[groupBy] : moment(task[groupBy]).format("DD-MM-YYYY");
+      const key = groupBy === groupTypes.PRIORITY || groupBy === groupTypes.TASK_STATE ? task[groupBy] : moment(task[groupBy]).format("DD-MM-YYYY");
       if (groupedTasks.has(key)) {
         groupedTasks.set(key, [...groupedTasks.get(key), task])
       } else {

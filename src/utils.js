@@ -44,6 +44,7 @@ export const groupTypes = {
     CREATED_ON: "createdAt",
     PENDING_ON: "dueDate",
     PRIORITY: "priority",
+    TASK_STATE: "currentState",
 };
 
 export const modalModes = {
@@ -61,6 +62,7 @@ export const placeholders = {
 
 export const labels = {
     NONE: "None",
+    TASK_STATE: "Task State",
     CREATED_ON: "Created On",
     PENDING_ON: "Pending On",
     PRIORITY: "Priority",
