@@ -147,9 +147,9 @@ class App extends React.Component {
     const { sortType, isAscending, groupBy } = this.state;
     return [
       getHeaderItem(labels.SUMMARY, true, (sortType === "summary" && isAscending ? "sort-asc" : sortType === "summary" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "summary")),
-      getHeaderItem(labels.PRIORITY, !(groupBy === "priority"), (sortType === "priority" && isAscending ? "sort-asc" : sortType === "priority" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "priority")),
-      getHeaderItem(labels.CREATED_ON, !(groupBy === "createdAt"), (sortType === "createdAt" && isAscending ? "sort-asc" : sortType === "createdAt" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "createdAt")),
-      getHeaderItem(labels.DUE_BY, !(groupBy === "dueDate"), (sortType === "dueDate" && isAscending ? "sort-asc" : sortType === "dueDate" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "dueDate")),
+      getHeaderItem(labels.PRIORITY, groupBy !== "priority", (sortType === "priority" && isAscending ? "sort-asc" : sortType === "priority" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "priority")),
+      getHeaderItem(labels.CREATED_ON, groupBy !== "createdAt", (sortType === "createdAt" && isAscending ? "sort-asc" : sortType === "createdAt" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "createdAt")),
+      getHeaderItem(labels.DUE_BY, groupBy !== "dueDate", (sortType === "dueDate" && isAscending ? "sort-asc" : sortType === "dueDate" && !isAscending ? "sort-desc" : "sort"), this.onSortClick.bind(this, "dueDate")),
       getHeaderItem(labels.ACTIONS)
     ];
   }
